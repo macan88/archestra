@@ -20248,6 +20248,25 @@ export type CohereChatWithAgentResponses = {
 
 export type CohereChatWithAgentResponse = CohereChatWithAgentResponses[keyof CohereChatWithAgentResponses];
 
+export type GetPublicConfigData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/config/public';
+};
+
+export type GetPublicConfigResponses = {
+    /**
+     * Default Response
+     */
+    200: {
+        disableBasicAuth: boolean;
+        disableInvitations: boolean;
+    };
+};
+
+export type GetPublicConfigResponse = GetPublicConfigResponses[keyof GetPublicConfigResponses];
+
 export type GetConfigData = {
     body?: never;
     path?: never;
@@ -38048,6 +38067,7 @@ export type GetIdentityProvidersResponses = {
         oidcConfig?: {
             issuer: string;
             pkce: boolean;
+            enableRpInitiatedLogout?: boolean;
             clientId: string;
             clientSecret: string;
             authorizationEndpoint?: string;
@@ -38163,6 +38183,7 @@ export type CreateIdentityProviderData = {
         oidcConfig?: {
             issuer: string;
             pkce: boolean;
+            enableRpInitiatedLogout?: boolean;
             clientId: string;
             clientSecret: string;
             authorizationEndpoint?: string;
@@ -38341,6 +38362,7 @@ export type CreateIdentityProviderResponses = {
         oidcConfig?: {
             issuer: string;
             pkce: boolean;
+            enableRpInitiatedLogout?: boolean;
             clientId: string;
             clientSecret: string;
             authorizationEndpoint?: string;
@@ -38684,6 +38706,7 @@ export type GetIdentityProviderResponses = {
         oidcConfig?: {
             issuer: string;
             pkce: boolean;
+            enableRpInitiatedLogout?: boolean;
             clientId: string;
             clientSecret: string;
             authorizationEndpoint?: string;
@@ -38799,6 +38822,7 @@ export type UpdateIdentityProviderData = {
         oidcConfig?: {
             issuer: string;
             pkce: boolean;
+            enableRpInitiatedLogout?: boolean;
             clientId: string;
             clientSecret: string;
             authorizationEndpoint?: string;
@@ -38978,6 +39002,7 @@ export type UpdateIdentityProviderResponses = {
         oidcConfig?: {
             issuer: string;
             pkce: boolean;
+            enableRpInitiatedLogout?: boolean;
             clientId: string;
             clientSecret: string;
             authorizationEndpoint?: string;

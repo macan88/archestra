@@ -171,6 +171,33 @@ openssl rand -base64 32
 --set archestra.env.ARCHESTRA_AUTH_SECRET=<your-generated-secret>
 ```
 
+#### Diagnostics Storage
+
+To persist Node fatal error reports from the backend, enable chart-managed diagnostics storage. This mounts a persistent volume at `/var/diagnostics` in both the platform and worker pods and configures the backend to write diagnostic reports there automatically.
+
+```yaml
+archestra:
+  diagnostics:
+    enabled: true
+    size: 10Gi
+    storageClassName: standard-rwo
+    accessModes:
+      - ReadWriteOnce
+```
+
+Available values:
+
+- `archestra.diagnostics.enabled` - Enable diagnostics storage for backend reports
+- `archestra.diagnostics.existingClaimName` - Use an existing PVC instead of creating one
+- `archestra.diagnostics.storageClassName` - StorageClass for the chart-managed PVC
+- `archestra.diagnostics.size` - PVC storage request
+- `archestra.diagnostics.accessModes` - PVC access modes
+- `archestra.diagnostics.heapSnapshotsNearHeapLimit` - Optional Node heap snapshot count for near-OOM investigations
+
+If you run both the platform and worker pods and want them to write to the same claim concurrently, choose a storage class and access mode combination your cluster supports for that pattern.
+
+Chart-managed diagnostics PVCs are validated conservatively. If more than one diagnostics-writing pod can run at the same time, including during rolling updates, the chart requires `ReadWriteMany`. A single `ReadWriteOnce` claim is only safe for single-pod deployments with non-overlapping updates.
+
 #### MCP Server Runtime Configuration
 
 **Orchestrator Settings**:

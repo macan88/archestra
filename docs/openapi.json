@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Archestra",
-    "version": "1.1.37"
+    "version": "1.1.39"
   },
   "components": {
     "schemas": {
@@ -72598,6 +72598,45 @@
         }
       }
     },
+    "/api/config/public": {
+      "get": {
+        "operationId": "getPublicConfig",
+        "tags": [
+          "Config"
+        ],
+        "description": "Get public config\n\nAuthentication:\n\nNot required.\n\nAuthorization:\n\nNone (no additional RBAC permission required)",
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "disableBasicAuth": {
+                      "type": "boolean"
+                    },
+                    "disableInvitations": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "disableBasicAuth",
+                    "disableInvitations"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        },
+        "x-required-permissions": {
+          "kind": "none",
+          "note": "None (no additional RBAC permission required)",
+          "permissions": []
+        }
+      }
+    },
     "/api/config": {
       "get": {
         "operationId": "getConfig",
@@ -123017,7 +123056,7 @@
         "tags": [
           "Organization"
         ],
-        "description": "Get organization appearance settings\n\nAuthentication:\n\nRequired. Use an authenticated browser session or send your Archestra API key in the `Authorization` header.\n\nAuthorization:\n\nNone (no additional RBAC permission required)",
+        "description": "Get organization appearance settings\n\nAuthentication:\n\nNot required.\n\nAuthorization:\n\nNone (no additional RBAC permission required)",
         "responses": {
           "200": {
             "description": "Default Response",
@@ -140168,7 +140207,7 @@
         "tags": [
           "Identity Providers"
         ],
-        "description": "Get public identity provider list for login page (no secrets exposed)\n\nAuthentication:\n\nRequired. Use an authenticated browser session or send your Archestra API key in the `Authorization` header.\n\nAuthorization:\n\nNone (no additional RBAC permission required)",
+        "description": "Get public identity provider list for login page (no secrets exposed)\n\nAuthentication:\n\nNot required.\n\nAuthorization:\n\nNone (no additional RBAC permission required)",
         "responses": {
           "200": {
             "description": "Default Response",
@@ -140444,6 +140483,9 @@
                             "type": "string"
                           },
                           "pkce": {
+                            "type": "boolean"
+                          },
+                          "enableRpInitiatedLogout": {
                             "type": "boolean"
                           },
                           "clientId": {
@@ -141014,6 +141056,9 @@
                       "pkce": {
                         "type": "boolean"
                       },
+                      "enableRpInitiatedLogout": {
+                        "type": "boolean"
+                      },
                       "clientId": {
                         "type": "string"
                       },
@@ -141340,6 +141385,9 @@
                           "type": "string"
                         },
                         "pkce": {
+                          "type": "boolean"
+                        },
+                        "enableRpInitiatedLogout": {
                           "type": "boolean"
                         },
                         "clientId": {
@@ -142171,6 +142219,9 @@
                         "pkce": {
                           "type": "boolean"
                         },
+                        "enableRpInitiatedLogout": {
+                          "type": "boolean"
+                        },
                         "clientId": {
                           "type": "string"
                         },
@@ -142738,6 +142789,9 @@
                       "pkce": {
                         "type": "boolean"
                       },
+                      "enableRpInitiatedLogout": {
+                        "type": "boolean"
+                      },
                       "clientId": {
                         "type": "string"
                       },
@@ -143065,6 +143119,9 @@
                           "type": "string"
                         },
                         "pkce": {
+                          "type": "boolean"
+                        },
+                        "enableRpInitiatedLogout": {
                           "type": "boolean"
                         },
                         "clientId": {

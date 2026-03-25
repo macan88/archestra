@@ -528,6 +528,7 @@ const config = {
       process.env[DEFAULT_ADMIN_PASSWORD_ENV_VAR_NAME] ||
       DEFAULT_ADMIN_PASSWORD,
     cookieDomain: process.env.ARCHESTRA_AUTH_COOKIE_DOMAIN,
+    disableBasicAuth: process.env.ARCHESTRA_AUTH_DISABLE_BASIC_AUTH === "true",
     disableInvitations:
       process.env.ARCHESTRA_AUTH_DISABLE_INVITATIONS === "true",
     additionalTrustedSsoProviderIds: getAdditionalTrustedSsoProviderIds(),
@@ -763,7 +764,7 @@ const config = {
       ),
       mcpGatewayTracesSampleRate: parseSampleRate(
         process.env.ARCHESTRA_SENTRY_MCP_GATEWAY_TRACES_SAMPLE_RATE,
-        0.05,
+        0.01,
       ),
       profilesSampleRate: parseSampleRate(
         process.env.ARCHESTRA_SENTRY_PROFILES_SAMPLE_RATE,
