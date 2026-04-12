@@ -1,17 +1,13 @@
-import {
-  createInsertSchema,
-  createSelectSchema,
-  createUpdateSchema,
-} from "drizzle-zod";
-import { z } from "zod";
-import { schema } from "@/database";
-import { KnowledgeSourceVisibilitySchema } from "./knowledge-base";
+import { createInsertSchema, createSelectSchema, createUpdateSchema } from 'drizzle-zod';
+import { z } from 'zod';
+import { schema } from '@/database';
+import { KnowledgeSourceVisibilitySchema } from './knowledge-base';
 import {
   ConnectorCheckpointSchema,
   ConnectorConfigSchema,
   ConnectorSyncStatusSchema,
   ConnectorTypeSchema,
-} from "./knowledge-connector";
+} from './knowledge-connector';
 
 // ===== Knowledge Base Schemas =====
 
@@ -46,7 +42,7 @@ export const SelectKnowledgeBaseConnectorSchema = createSelectSchema(
     config: ConnectorConfigSchema,
     lastSyncStatus: NullableConnectorSyncStatusSchema,
   },
-);
+);;
 export const InsertKnowledgeBaseConnectorSchema = createInsertSchema(
   schema.knowledgeBaseConnectorsTable,
   {
@@ -83,46 +79,31 @@ export const UpdateKnowledgeBaseConnectorSchema = createUpdateSchema(
   checkpoint: true,
 });
 
-export type KnowledgeBaseConnector = z.infer<
-  typeof SelectKnowledgeBaseConnectorSchema
->;
-export type InsertKnowledgeBaseConnector = z.infer<
-  typeof InsertKnowledgeBaseConnectorSchema
->;
-export type UpdateKnowledgeBaseConnector = z.infer<
-  typeof UpdateKnowledgeBaseConnectorSchema
->;
+export type KnowledgeBaseConnector = z.infer<typeof SelectKnowledgeBaseConnectorSchema>;
+export type InsertKnowledgeBaseConnector = z.infer<typeof InsertKnowledgeBaseConnectorSchema>;
+export type UpdateKnowledgeBaseConnector = z.infer<typeof UpdateKnowledgeBaseConnectorSchema>;
 
-// ===== Connector Run Schemas =====
+// Google Drive connector type
+export const GoogleDriveConnectorType = z.enum(['google_drive']);
 
-export const SelectConnectorRunSchema = createSelectSchema(
-  schema.connectorRunsTable,
-  { status: ConnectorSyncStatusSchema },
-);
-export const SelectConnectorRunListSchema = SelectConnectorRunSchema.omit({
-  logs: true,
-});
-export const InsertConnectorRunSchema = createInsertSchema(
-  schema.connectorRunsTable,
-  { status: ConnectorSyncStatusSchema },
-).omit({ id: true, createdAt: true });
-export const UpdateConnectorRunSchema = createUpdateSchema(
-  schema.connectorRunsTable,
-  { status: ConnectorSyncStatusSchema.optional() },
-).pick({
-  status: true,
-  completedAt: true,
-  documentsProcessed: true,
-  documentsIngested: true,
-  totalItems: true,
-  error: true,
-  logs: true,
-  checkpoint: true,
-  totalBatches: true,
-  completedBatches: true,
-  itemErrors: true,
+// Update the connector type schema to include Google Drive
+export const UpdatedConnectorTypeSchema = z.union([
+  ConnectorTypeSchema,
+  GoogleDriveConnectorType,
+]);
+
+// Google Drive connector config schema
+export const GoogleDriveConnectorConfigSchema = z.object({
+  clientId: z.string(),
+  clientSecret: z.string(),
+  refreshToken: z.string(),
+  driveId: z.string().optional(),
+  folderId: z.string().optional(),
+  fileTypes: z.array(z.string()).optional(),
 });
 
-export type ConnectorRun = z.infer<typeof SelectConnectorRunSchema>;
-export type InsertConnectorRun = z.infer<typeof InsertConnectorRunSchema>;
-export type UpdateConnectorRun = z.infer<typeof UpdateConnectorRunSchema>;
+// Update the connector config schema to include Google Drive
+export const UpdatedConnectorConfigSchema = z.union([
+  ConnectorConfigSchema,
+  GoogleDriveConnectorConfigSchema,
+]);
